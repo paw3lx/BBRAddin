@@ -16,6 +16,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using System.Timers;
+using BBRAddin.Commands;
 
 namespace BBRAddin
 {
@@ -48,6 +49,8 @@ namespace BBRAddin
         /// </summary>
         public const string PackageGuidString = "39cee19f-759c-4a67-8b95-eeab65a3540a";
 
+        private ObjectExplorerManager _objectExplorerManager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
         /// </summary>
@@ -71,6 +74,9 @@ namespace BBRAddin
             base.Initialize();
 
             AddSkipLoading();
+
+            _objectExplorerManager = new ObjectExplorerManager(this);
+            _objectExplorerManager.SetObjectExplorerEventProvider();
         }
 
         private void AddSkipLoading()
@@ -87,5 +93,10 @@ namespace BBRAddin
         }
 
         #endregion
+
+        public object GetServiceHelper(Type type)
+        {
+            return GetService(type);
+        }
     }
 }

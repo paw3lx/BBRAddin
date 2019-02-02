@@ -37,7 +37,7 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidBaseCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="queryWindowContextCommandSet" id="queryWindowContextMenu"/>
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
     </Groups>
 
@@ -56,7 +56,7 @@
         <Parent guid="guidBaseCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke BaseCommand</ButtonText>
+          <ButtonText>BBR Init</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -91,8 +91,8 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
 
-    <GuidSymbol name="queryWindowContextCommandSet" value="{33F13AC3-80BB-4ECB-85BC-225435603A5E}">
+    <!--<GuidSymbol name="queryWindowContextCommandSet" value="{33F13AC3-80BB-4ECB-85BC-225435603A5E}">
       <IDSymbol name="queryWindowContextMenu" value="0x0050"/>
-    </GuidSymbol>
+    </GuidSymbol>-->
   </Symbols>
 </CommandTable>
