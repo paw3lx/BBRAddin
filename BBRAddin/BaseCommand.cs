@@ -7,6 +7,7 @@
 using System;
 using System.ComponentModel.Design;
 using System.Globalization;
+using BBRAddin.Windows;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -31,6 +32,8 @@ namespace BBRAddin
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly Package package;
+
+        public static string CurrentTableName { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
@@ -67,7 +70,7 @@ namespace BBRAddin
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
-        private IServiceProvider ServiceProvider
+        public IServiceProvider ServiceProvider
         {
             get
             {

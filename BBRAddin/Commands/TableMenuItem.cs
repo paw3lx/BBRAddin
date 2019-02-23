@@ -6,6 +6,7 @@ using EnvDTE;
 using BBRAddin.Model;
 using System.Text;
 using MenuItem = System.Windows.Controls.MenuItem;
+using Microsoft.VisualStudio.Shell;
 
 namespace BBRAddin.Commands
 {
@@ -85,19 +86,7 @@ namespace BBRAddin.Commands
                     Guid.TryParse(clipboardText, out id);
                 }
 
-                ScriptFactory.Instance.CreateNewBlankScript(ScriptType.Sql);
-                var dte = _package.GetServiceHelper(typeof(DTE)) as DTE;
-                if (dte != null)
-                {
-                    var doc = (TextDocument)dte.Application.ActiveDocument.Object(null);
-
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"SELECT TOP 100 * FROM {menuItem.Tag}");
-                    sb.AppendLine("WHERE RegistreringTil IS NULL AND VirkningTil IS NULL");
-                    sb.AppendLine($"AND Id = '{id}'");
-
-                    doc.EndPoint.CreateEditPoint().Insert(sb.ToString());
-                }
+                _package.ShowQueryWindow(this, e, (string)menuItem.Tag);
 
             }
             catch (Exception ex)

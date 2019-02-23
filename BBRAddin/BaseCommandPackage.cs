@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using System.Timers;
 using BBRAddin.Commands;
+using BBRAddin.Windows;
 
 namespace BBRAddin
 {
@@ -40,6 +41,7 @@ namespace BBRAddin
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(QueryWindow))]
     [Guid(BaseCommandPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class BaseCommandPackage : Package
@@ -96,7 +98,20 @@ namespace BBRAddin
 
         public object GetServiceHelper(Type type)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             return GetService(type);
+        }
+
+        public void ShowQueryWindow(object sender, EventArgs e, string tableName)
+        {
+            var window = FindToolWindow(typeof(QueryWindow), 0, true);
+            if (window?.Frame == null)
+            {
+                return;
+            }
+            BaseCommand.CurrentTableName = tableName;
+            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+            ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
     }
 }

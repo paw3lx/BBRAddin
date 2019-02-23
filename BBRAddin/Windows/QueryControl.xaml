@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="BBRAddin.Windows.QueryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="300">
+    <Grid>
+        <Button Content="Script it!" Height="50" HorizontalAlignment="Left" Margin="99,161,0,0" Name="Button1" VerticalAlignment="Top" Width="100" Click="Button1_Click" RenderTransformOrigin="1.152,1.872" />
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="32,10,0,0" TextWrapping="Wrap" Text="{Binding Path=object_id, UpdateSourceTrigger=PropertyChanged}" Name="ObjectId" VerticalAlignment="Top" Width="241"/>
+    </Grid>
+</UserControl>
