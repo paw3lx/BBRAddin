@@ -32,9 +32,9 @@ namespace BBRAddin.Windows
             {
                 var doc = (TextDocument)dte.Application.ActiveDocument.Object(null);
 
-                var query = Services.QueryService.GetSelectQuery(BaseCommand.CurrentTableName, id);
+                //var query = Services.QueryService.GetSelectQuery(BaseCommand.CurrentTableName, id);
 
-                doc.EndPoint.CreateEditPoint().Insert(query);
+                //doc.EndPoint.CreateEditPoint().Insert(query);
             }
 
             IVsUIShell vsUIShell = (IVsUIShell)Package.GetGlobalService(typeof(SVsUIShell));

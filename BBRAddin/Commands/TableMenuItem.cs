@@ -7,6 +7,7 @@ using BBRAddin.Model;
 using System.Text;
 using MenuItem = System.Windows.Controls.MenuItem;
 using Microsoft.VisualStudio.Shell;
+using BBRAddin.Services;
 
 namespace BBRAddin.Commands
 {
@@ -33,16 +34,34 @@ namespace BBRAddin.Commands
             var scriptValid = new ToolStripMenuItem("SELECT TOP 100 Valid");
             scriptValid.Click += ScriptValid_Click;
 
+            var scriptValidInActiveWindow = new ToolStripMenuItem("SELECT TOP 100 Valid (active window)");
+            scriptValidInActiveWindow.Click += ScriptValidActiveWindow_Click;
+
             var scriptById = new ToolStripMenuItem("SELECT valid by Id");
             scriptById.Click += ScriptValidById_Click;
 
+            var scriptByIdInActiveWindow = new ToolStripMenuItem("SELECT valid by Id (active window)");
+            scriptByIdInActiveWindow.Click += ScriptValidByIdActiveWindow_Click;
+
             item.DropDownItems.Add(scriptValid);
             item.DropDownItems.Add(scriptById);
+            item.DropDownItems.Add(scriptValidInActiveWindow);
+            item.DropDownItems.Add(scriptByIdInActiveWindow);
 
             return new ToolStripItem[] { item };
         }
 
         private void ScriptValid_Click(object sender, EventArgs e)
+        {
+            ScriptValidBase_Click(sender, e, true);
+        }
+
+        private void ScriptValidActiveWindow_Click(object sender, EventArgs e)
+        {
+            ScriptValidBase_Click(sender, e, false);
+        }
+
+        private void ScriptValidBase_Click(object sender, EventArgs e, bool newWindow)
         {
             try
             {
@@ -51,17 +70,18 @@ namespace BBRAddin.Commands
                 if (menuItem == null)
                     return;
 
-                ScriptFactory.Instance.CreateNewBlankScript(ScriptType.Sql);
+                if (newWindow)
+                {
+                    ScriptFactory.Instance.CreateNewBlankScript(ScriptType.Sql);
+                }
                 var dte = _package.GetServiceHelper(typeof(DTE)) as DTE;
                 if (dte != null)
                 {
                     var doc = (TextDocument)dte.Application.ActiveDocument.Object(null);
 
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"SELECT TOP 100 * FROM {menuItem.Tag}");
-                    sb.AppendLine("WHERE RegistreringTil IS NULL AND VirkningTil IS NULL");
+                    string query = QueryService.GetSelectQuery(menuItem.Tag.ToString(), null);
 
-                    doc.EndPoint.CreateEditPoint().Insert(sb.ToString());
+                    doc.EndPoint.CreateEditPoint().Insert(query);
                 }
             }
             catch (Exception ex)
@@ -71,6 +91,16 @@ namespace BBRAddin.Commands
 
         private void ScriptValidById_Click(object sender, EventArgs e)
         {
+            ScriptValidByIdBase_Click(sender, e, true);
+        }
+
+        private void ScriptValidByIdActiveWindow_Click(object sender, EventArgs e)
+        {
+            ScriptValidByIdBase_Click(sender, e, false);
+        }
+
+        private void ScriptValidByIdBase_Click(object sender, EventArgs e, bool newWindow)
+        {
             try
             {
                 var menuItem = GetMenuItem();
@@ -78,16 +108,23 @@ namespace BBRAddin.Commands
                 if (menuItem == null)
                     return;
 
-                //ask for Id
-                Guid id = Guid.Empty;
-                if (Clipboard.ContainsText(TextDataFormat.Text))
+                if (newWindow)
                 {
-                    string clipboardText = Clipboard.GetText(TextDataFormat.Text);
-                    Guid.TryParse(clipboardText, out id);
+                    ScriptFactory.Instance.CreateNewBlankScript(ScriptType.Sql);
                 }
+                
+                var dte = _package.GetServiceHelper(typeof(DTE)) as DTE;
+                if (dte != null)
+                {
+                    var doc = (TextDocument)dte.Application.ActiveDocument.Object(null);
 
-                _package.ShowQueryWindow(this, e, (string)menuItem.Tag);
+                    var clipBoardText = ClipboardService.GetText();
+                    var clipBoardIsGuid = Guid.TryParse(clipBoardText, out Guid id);
 
+                    string query = QueryService.GetSelectQuery(menuItem.Tag.ToString(), clipBoardIsGuid ? id.ToString() : string.Empty);
+
+                    doc.EndPoint.CreateEditPoint().Insert(query);
+                }
             }
             catch (Exception ex)
             {
