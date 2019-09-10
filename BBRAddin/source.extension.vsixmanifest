@@ -3,7 +3,8 @@
   <Metadata>
     <Identity Id="BBRAddin.Pawel Skaruz.521458ac-8180-4396-85a6-d6dd6b660a47" Version="1.0" Language="en-US" Publisher="Pawel Skaruz" />
     <DisplayName>BBRAddin</DisplayName>
-    <Description xml:space="preserve">Empty VSIX Project.</Description>
+    <Description xml:space="preserve">BBR addin </Description>
+    <Tags>SSMS; SQL Server</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Version="[14.0, 15.0)" Id="ssms" />

@@ -69,7 +69,7 @@
     <Compile Include="Helpers\ValueTypeHelper.cs" />
     <Compile Include="Model\MenuCommandParameters.cs" />
     <Compile Include="Model\ValueType.cs" />
-    <Compile Include="PasteAsCSVCommand.cs" />
+    <Compile Include="Commands\PasteAsCSVCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\QueryService.cs" />
@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="init_bbr_addin_registry.reg" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">

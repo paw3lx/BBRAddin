@@ -11,7 +11,7 @@ using BBRAddin.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 
-namespace BBRAddin
+namespace BBRAddin.Commands
 {
     /// <summary>
     /// Command handler
@@ -32,8 +32,6 @@ namespace BBRAddin
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly Package package;
-
-        public static string CurrentTableName { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
