@@ -24,7 +24,7 @@ namespace BBRAddin.Services
                 catch
                 {
                         // ignored
-                    }
+                }
             });
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();

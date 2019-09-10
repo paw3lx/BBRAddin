@@ -73,6 +73,7 @@ namespace BBRAddin
         protected override void Initialize()
         {
             BaseCommand.Initialize(this);
+            PasteAsCSVCommand.Initialize(this);
             base.Initialize();
 
             AddSkipLoading();
